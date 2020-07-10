@@ -1,5 +1,6 @@
 import beerListReducer from "../../reducers/beer-list-reducer";
 import Moment from 'moment';
+import * as c from './../../actions/ActionTypes';
 
 describe("beerListReducer", () => {
 
@@ -64,6 +65,33 @@ test('Should add a formatted shelf life to a tapped beer', () => {
       timeTapped: timeTapped,
       id: id,
       formattedWaitTime: '4 minutes'
+    }
+  });
+});
+
+test("Should successfully add new beer to the beer list with formatted shelf life timer starting at 0", () => {
+  const { name, brand, price, abv, description, timeTapped, id} = beerDetail;
+  action ={
+    type: c.ADD_BEER,
+    name: name,
+    brand: brand,
+    price: price,
+    abv: abv,
+    description: description,
+    timeTapped: timeTapped,
+    id: id,
+    formattedWaitTime: new Moment().FromNow(true) //(true) to remove 'ago'
+  };
+  expect(beerListReducer({}, action)).toEqual({
+    1: {
+      name: name,
+      brand: brand,
+      price: price,
+      abv: abv,
+      description: description,
+      timeTapped: timeTapped,
+      id: id,
+      formattedWaitTime: 'a few seconds'
     }
   });
 });
