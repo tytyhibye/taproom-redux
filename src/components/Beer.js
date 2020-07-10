@@ -6,6 +6,7 @@ function Beer(props) {
     <React.Fragment>
       <div onClick={() => props.whenBeerClicked(props.id)}>
         <h4> {props.brand} - {props.name} </h4>
+        <p><em>Tapped {props.formattedWaitTime}</em></p>
       </div>
     </React.Fragment>
   );

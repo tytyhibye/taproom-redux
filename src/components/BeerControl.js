@@ -3,6 +3,9 @@ import NewForm from "./NewForm";
 import BeerList from "./BeerList";
 import BeerDetail from "./BeerDetail";
 import EditForm from "./EditForm";
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import * as a from './../actions';
 
 class BeerControl extends React.Component {
   constructor(props) {
@@ -16,6 +19,28 @@ class BeerControl extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.tappedTimeUpdate = setInterval(() => 
+    this.updateTimeSinceTapped(),
+    60000
+    );
+  }
+
+  componentWillUnmount() {
+    console.log('component unmounted!');
+    clearInterval(this.tappedTimeUpdate);
+  }
+
+  updateTimeSinceTapped = () => {
+    const { dispatch } = this.props;
+    Object.values(this.props.masterTicketList).forEach(ticket => {
+      const newFormattedWaitTime = ticket.timeTapped.fromNow(); // true to remove 'ago'
+      const action = a.updateTime(ticket.id, newFormattedWaitTime);
+      dispatch(action);
+    });
+  }
+
+
   handleChangingSelectedBeer = (id) => {
     const selectedBeer = this.state.masterBeerList.filter(
       (beer) => beer.id === id
@@ -24,12 +49,17 @@ class BeerControl extends React.Component {
   };
 
   handleAddingNewBeerToList = (newBeer) => {
-    const newMasterBeerList = this.state.masterBeerList.concat(newBeer);
-    this.setState({
-      masterBeerList: newMasterBeerList,
-      formVisibleOnPage: false,
+    const { dispatch } = this.props;
+    const action = a.addBeer(newBeer);
+    dispatch(action);
+    const action2 = a.toggleForm();
+    dispatch(action2);
+    // const newMasterBeerList = this.state.masterBeerList.concat(newBeer);
+    // this.setState({
+    //   masterBeerList: newMasterBeerList,
+    //   formVisibleOnPage: false,
       // editing: false,
-    });
+    // });
   };
 
   handleClick = () => {
@@ -40,18 +70,24 @@ class BeerControl extends React.Component {
         editing: false,
       });
     } else {
-      this.setState((prevState) => ({
-        formVisibleOnPage: !prevState.formVisibleOnPage,
-      }));
+      const { dispatch } = this.props;
+      const action =a.toggleForm();
+      dispatch(action);
+      // this.setState((prevState) => ({
+      //   formVisibleOnPage: !prevState.formVisibleOnPage,
+      // }));
     }
   }
 
   handleEditingBeerInList = (beerToEdit) => {
-    const editedMasterBeerList = this.state.masterBeerList
-      .filter((beer) => beer.id !== this.state.selectedBeer.id)
-      .concat(beerToEdit);
+    const { dispatch } = this.props;
+    const action = a.addBeer(beerToEdit);
+    dispatch(action);
+    // const editedMasterBeerList = this.state.masterBeerList
+    //   .filter((beer) => beer.id !== this.state.selectedBeer.id)
+    //   .concat(beerToEdit);
     this.setState({
-      masterBeerList: editedMasterBeerList,
+      // masterBeerList: editedMasterBeerList, // might need to comment out
       editing: false,
       selectedBeer: null,
     });
@@ -84,6 +120,7 @@ class BeerControl extends React.Component {
       (beer) => beer.id === id
     )[0];
     restockBeer.pintCount = 124;
+    restockBeer.timeTapped = 0;
     const editedMasterBeerList = this.state.masterBeerList
       .filter((beer) => beer.id !== this.state.selectedBeer.id)
       .concat(restockBeer);
@@ -93,11 +130,14 @@ class BeerControl extends React.Component {
   };
 
   handleDeletingBeer = (id) => {
-    const newMasterBeerList = this.state.masterBeerList.filter(
-      (beer) => beer.id !== id
-    );
+    const { dispatch } = this.props;
+    const action = a.deleteBeer(id);
+    dispatch(action);
+    // const newMasterBeerList = this.state.masterBeerList.filter(
+    //   (beer) => beer.id !== id
+    // );
     this.setState({
-      masterBeerList: newMasterBeerList,
+      // masterBeerList: newMasterBeerList,
       selectedBeer: null,
     });
   };
@@ -121,7 +161,7 @@ class BeerControl extends React.Component {
       );
       buttonText = "Return to Beer List";
       
-    } else if (this.state.formVisibleOnPage) {
+    } else if (this.state.formVisibleOnPage) { 
       currentlyVisibleState = (
         <NewForm onNewBeerCreation={this.handleAddingNewBeerToList} />
         );
@@ -129,7 +169,7 @@ class BeerControl extends React.Component {
       } else {
         currentlyVisibleState = (
           <BeerList
-            beerList={this.state.masterBeerList}
+            beerList={this.props.masterBeerList} // might need to be props
             onBeerSelection={this.handleChangingSelectedBeer}
             />
             );
@@ -146,5 +186,17 @@ class BeerControl extends React.Component {
     );
   }
 }
+
+BeerControl.propTypes = {
+  masterBeerList: PropTypes.object
+}
+
+const mapStateToProps = state => {
+  return {
+    masterBeerList: state
+  }
+}
+
+BeerControl = connect(mapStateToProps)(BeerControl);
 
 export default BeerControl;
