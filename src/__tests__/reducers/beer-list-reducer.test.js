@@ -37,6 +37,7 @@ describe("beerListReducer", () => {
     description: "perfectly dank",
     pintCount: 124,
     timeTapped: 0,
+    formattedShelfLife: "A few seconds ago",
     id: 1
   };
 
@@ -59,7 +60,7 @@ describe("beerListReducer", () => {
     const { name, brand, price, abv, description, pintCount, timeTapped, id} = beerDetail;
     action = {
       type: c.UPDATE_TIME,
-      formattedShelfLife: '4 days',
+      formattedShelfLife: '4 days ago',
       id: id
     };
     expect(beerListReducer({ [id] : beerDetail }, action)).toEqual({
@@ -72,7 +73,7 @@ describe("beerListReducer", () => {
         pintCount: pintCount,
         timeTapped: timeTapped,
         id: id,
-        formattedShelfLife: '4 days'
+        formattedShelfLife: '4 days ago'
       }
     });
   });
@@ -89,7 +90,7 @@ describe("beerListReducer", () => {
       pintCount: pintCount,
       timeTapped: timeTapped,
       id: id,
-      formattedShelfLife: new Moment().fromNow(true)
+      formattedShelfLife: new Moment().fromNow()
     };
     expect(beerListReducer({}, action)).toEqual({
       1: {
@@ -101,7 +102,7 @@ describe("beerListReducer", () => {
         pintCount: pintCount,
         timeTapped: timeTapped,
         id: id,
-        formattedShelfLife: "a few seconds"
+        formattedShelfLife: "a few seconds ago"
       }
     });
   });
@@ -131,6 +132,7 @@ describe("beerListReducer", () => {
       },
     });
   });
+
 
   test("Should successfully delete a beer from list", () => {
     action = {

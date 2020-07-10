@@ -37,7 +37,7 @@ class BeerControl extends React.Component {
   updateTimeSinceTapped = () => {
     const { dispatch } = this.props;
     Object.values(this.props.masterBeerList).forEach(beer => {
-      const newFormattedShelfLife = beer.timeTapped.fromNow(true);
+      const newFormattedShelfLife = beer.timeTapped.fromNow();
       const action = a.updateTime(beer.id, newFormattedShelfLife);
       dispatch(action);
     });
@@ -99,20 +99,20 @@ class BeerControl extends React.Component {
     this.setState({ editing: true });
   };
 
-  handleBuyingPint = (id) => {
-    const purchasedPint = this.state.masterBeerList.filter(
-      (beer) => beer.id === id
-    )[0];
-    if (purchasedPint.pintCount === 0) {
-      return purchasedPint.pintCount;
+  handleBuyingPint = (beerToSell) => {
+    if (beerToSell.pintCount === 0) {
+      return beerToSell.pintCount;
     } else {
-      purchasedPint.pintCount -= 1;
+      const { dispatch } = this.props;
+      const action = a.sellPint(beerToSell);
+      dispatch(action);
+      // beerToSell.pintCount -= 1;
     }
-    const editedMasterBeerList = this.state.masterBeerList
+    // const editedMasterBeerList = this.state.masterBeerList
       // .filter((beer) => beer.id !== this.state.selectedBeer.id)
-      // .concat(purchasedPint);
+      // .concat(beerToSell);
     this.setState({
-      masterBeerList: editedMasterBeerList,
+      selectedBeer: null   
     });
   };
 

@@ -28,7 +28,22 @@ export default (state = {}, action) => {
           [id]: newBeer
         });
         return updatedState;
+
+      case c.SELL_PINT:
+        return Object.assign({}, state, {
+          [id]: {
+            name: name,
+            brand: brand,
+            price: price,
+            abv: abv,
+            description: description,
+            pintCount: pintCount -1,
+            timeTapped: timeTapped,
+            formattedShelfLife: formattedShelfLife,
+            id: id
+          }
+        })
       default:
         return state;
   }
-}
+};

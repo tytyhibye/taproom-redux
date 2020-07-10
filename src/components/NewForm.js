@@ -16,7 +16,7 @@ function NewForm(props) {
       id: v4(),
       pintCount: 124,
       timeOpen: new Moment(),
-      formattedShelfLife: new Moment().fromNow(true)
+      formattedShelfLife: new Moment().fromNow()
     });
   }
 
