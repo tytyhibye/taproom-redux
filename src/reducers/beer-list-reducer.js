@@ -1,4 +1,32 @@
-export const ADD_BEER = 'ADD_BEER';
-export const DELETE_BEER = 'DELETE_BEER';
-export const TOGGLE_FORM = 'TOGGLE_FORM';
-// export const UPDATE_TIME = 'UPDATE_TIME';
+import * as c from './../actions/ActionTypes';
+
+export default (state = {}, action) => {
+  const { name, brand, price, abv, description, id, formattedWaitTime, timeTapped } = action;
+  switch (action.type) {
+    case c.ADD_BEER:
+      return Object.assign({}, state, {
+        [id]: {
+          name: name,
+          brand: brand,
+          price: price,
+          abv: abv,
+          description: description,
+          id: id,
+          timeTapped: timeTapped,
+          formattedWaitTime: formattedWaitTime
+        }
+      });
+      case c.DELETE_BEER:
+        const newState = { ...state };
+        delete newState[id];
+        return newState;
+      case c.UPDATE_TIME:
+        const newBeer = Object.assign({}, state[id], { formattedWaitTime });
+        const updatedState = Object.assign({}, state, {
+          [id]: newBeer
+        });
+        return updatedState;
+      default:
+        return state;
+  }
+}
