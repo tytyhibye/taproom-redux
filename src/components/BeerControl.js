@@ -4,7 +4,7 @@ import BeerList from "./BeerList";
 import BeerDetail from "./BeerDetail";
 import EditForm from "./EditForm";
 import { connect } from 'react-redux';
-import Beer from './Beer';
+// import Beer from './Beer';
 import PropTypes from 'prop-types';
 import * as a from './../actions';
 
@@ -13,8 +13,8 @@ class BeerControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      formVisibleOnPage: false,
-      masterBeerList: [],
+      // formVisibleOnPage: false,
+      // masterBeerList: [],
       pintCount: 124,
       selectedBeer: null,
       editing: false,
@@ -52,7 +52,7 @@ class BeerControl extends React.Component {
       });
     } else {
       const { dispatch } = this.props;
-      const action =a.toggleForm();
+      const action = a.toggleForm();
       dispatch(action);
       // this.setState((prevState) => ({
       //   formVisibleOnPage: !prevState.formVisibleOnPage,
@@ -60,9 +60,8 @@ class BeerControl extends React.Component {
     }
   }
 
-
   handleChangingSelectedBeer = (id) => {
-    const selectedBeer = this.state.masterBeerList.filter(
+    const selectedBeer = this.props.masterBeerList.filter( //possibly refactor to masterBeerList[id]
       (beer) => beer.id === id
     )[0];
     this.setState({ selectedBeer: selectedBeer });
@@ -98,11 +97,11 @@ class BeerControl extends React.Component {
   };
 
   handleEditClick = () => {
-    console.log("handleEditClick reached!");
+    // console.log("handleEditClick reached!");
     this.setState({ editing: true });
   };
 
-  handleBuyingAPint = (id) => {
+  handleBuyingPint = (id) => {
     const purchasedPint = this.state.masterBeerList.filter(
       (beer) => beer.id === id
     )[0];
@@ -112,8 +111,8 @@ class BeerControl extends React.Component {
       purchasedPint.pintCount -= 1;
     }
     const editedMasterBeerList = this.state.masterBeerList
-      .filter((beer) => beer.id !== this.state.selectedBeer.id)
-      .concat(purchasedPint);
+      // .filter((beer) => beer.id !== this.state.selectedBeer.id)
+      // .concat(purchasedPint);
     this.setState({
       masterBeerList: editedMasterBeerList,
     });
@@ -126,8 +125,8 @@ class BeerControl extends React.Component {
     restockBeer.pintCount = 124;
     restockBeer.timeTapped = 0;
     const editedMasterBeerList = this.state.masterBeerList
-      .filter((beer) => beer.id !== this.state.selectedBeer.id)
-      .concat(restockBeer);
+      // .filter((beer) => beer.id !== this.state.selectedBeer.id)
+      // .concat(restockBeer);
     this.setState({
       masterBeerList: editedMasterBeerList,
     });
@@ -154,31 +153,29 @@ class BeerControl extends React.Component {
       currentlyVisibleState = <EditForm beer={this.state.selectedBeer} onEdit={this.handleEditingBeerInList} />
       buttonText = "Return to Beer List";
     } else if (this.state.selectedBeer != null) {
-      currentlyVisibleState = (
+      currentlyVisibleState = 
         <BeerDetail
           beer={this.state.selectedBeer}
           onClickingDelete={this.handleDeletingBeer}
           onClickingEdit={this.handleEditClick}
-          onClickingSell={this.handleBuyingAPint}
+          onClickingSell={this.handleBuyingPint}
           onClickingRestock={this.handleRestocking}
         />
-      );
       buttonText = "Return to Beer List";
       
-    } else if (this.state.formVisibleOnPage) { 
-      currentlyVisibleState = (
-        <NewForm onNewBeerCreation={this.handleAddingNewBeerToList} />
-        );
-        buttonText = "Return to List";
-      } else {
-        currentlyVisibleState = (
-          <BeerList
-            beerList={this.props.masterBeerList} // might need to be props
-            onBeerSelection={this.handleChangingSelectedBeer}
-            />
-            );
-          buttonText = "Add Beer!";
-        }
+    } else if (this.props.formVisibleOnPage) { 
+      currentlyVisibleState = 
+        <NewForm
+          onNewBeerCreation={this.handleAddingNewBeerToList} />
+      buttonText = "Return to List";
+    } else {
+      currentlyVisibleState = 
+        <BeerList
+          beerList={this.props.masterBeerList} // might need to be props
+          onBeerSelection={this.handleChangingSelectedBeer}
+          />
+      buttonText = "Add Beer!";
+    }
 
     return (
       <React.Fragment>
@@ -197,7 +194,8 @@ BeerControl.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    masterBeerList: state
+    formVisibleOnPage: state.formVisibleOnPage,
+    masterBeerList: state.masterBeerList
   }
 }
 
