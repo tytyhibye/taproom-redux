@@ -6,12 +6,36 @@ describe("beerListReducer", () => {
 
   let action;
 
+  const currentState = {
+    1: {
+      name: "RPM",
+      brand: "Boneyard",
+      price: "7",
+      abv: "6",
+      description: "perfectly dank",
+      pintCount: 124,
+      timeTapped: 0,
+      id: 1
+    },
+    2: {
+    name: "Irish Death",
+    brand: "Ironhorse",
+    price: "7",
+    abv: "8",
+    description: "body of an ale, flavor of a stout",
+    pintCount: 124,
+    timeTapped: 0,
+    id: 2
+    }
+  };
+
   const beerDetail ={
     name: "RPM",
     brand: "Boneyard",
     price: "7",
     abv: "6",
     description: "perfectly dank",
+    pintCount: 124,
     timeTapped: 0,
     id: 1
   };
@@ -22,36 +46,20 @@ describe("beerListReducer", () => {
     price: "7",
     abv: "6",
     description: "a balanced blend of citrus and pine",
+    pintCount: 124,
     timeTapped: 0,
     id: 1
   };
 
-  const currentState = {
-    1: {
-      name: "RPM",
-      brand: "Boneyard",
-      price: "7",
-      abv: "6",
-      description: "perfectly dank",
-      timeTapped: 0,
-      id: 1
-    },
-    2: {
-    name: "Irish Death",
-    brand: "Ironhorse",
-    price: "7",
-    abv: "8",
-    description: "body of an ale, flavor of a stout",
-    timeTapped: 0,
-    id: 2
-    },
-  };
+  test("Should return default state if there is no action type passed into the reducer", () => {
+    expect(beerListReducer({}, { type: null })).toEqual({});
+  });
 
   test('Should add a formatted shelf life to a tapped beer', () => {
-    const { name, brand, price, abv, description, timeTapped, id} = beerDetail;
+    const { name, brand, price, abv, description, pintCount, timeTapped, id} = beerDetail;
     action = {
       type: c.UPDATE_TIME,
-      formattedShelfLife: '4 minutes',
+      formattedShelfLife: '4 days ago',
       id: id
     };
     expect(beerListReducer({ [id] : beerDetail }, action)).toEqual({
@@ -61,15 +69,16 @@ describe("beerListReducer", () => {
         price: price,
         abv: abv,
         description: description,
+        pintCount: pintCount,
         timeTapped: timeTapped,
         id: id,
-        formattedShelfLife: '4 minutes'
+        formattedShelfLife: '4 days ago'
       }
     });
   });
 
   test("Should successfully add new beer to the beer list with formatted shelf life timer starting at 0", () => {
-    const { name, brand, price, abv, description, timeTapped, id} = beerDetail;
+    const { name, brand, price, abv, description, pintCount, timeTapped, id} = beerDetail;
     action ={
       type: c.ADD_BEER,
       name: name,
@@ -77,9 +86,10 @@ describe("beerListReducer", () => {
       price: price,
       abv: abv,
       description: description,
+      pintCount: pintCount,
       timeTapped: timeTapped,
       id: id,
-      formattedShelfLife: new Moment().fromNow(true) //(true) to remove 'ago'
+      formattedShelfLife: new Moment().fromNow() //(true) to remove 'ago'
     };
     expect(beerListReducer({}, action)).toEqual({
       1: {
@@ -88,15 +98,16 @@ describe("beerListReducer", () => {
         price: price,
         abv: abv,
         description: description,
+        pintCount: pintCount,
         timeTapped: timeTapped,
         id: id,
-        formattedShelfLife: 'a few seconds'
+        formattedShelfLife: "a few seconds ago"
       }
     });
   });
 
   test("Should update beer detail if key already exists using the same ADD_BEER Reducer", () => {
-    const { name, brand, price, abv, description, id } = updatedBeerDetail;
+    const { name, brand, price, abv, description, pintCount, id } = updatedBeerDetail;
     action = {
       type: c.ADD_BEER,
       name: name,
@@ -104,6 +115,7 @@ describe("beerListReducer", () => {
       price: price,
       abv: abv,
       description: description,
+      pintCount: pintCount,
       id: id
     };
 
@@ -114,6 +126,7 @@ describe("beerListReducer", () => {
         price: price,
         abv: abv,
         description: description,
+        pintCount: pintCount,
         id: id
       },
     });
@@ -131,13 +144,10 @@ describe("beerListReducer", () => {
         price: "7",
         abv: "8",
         description: "body of an ale, flavor of a stout",
-        id: 2,
-        timeTapped: 0
+        pintCount: 124,
+        timeTapped: 0,
+        id: 2
       },
     });
-  });
-
-  test("Should return default state if there is no action type passed into the reducer", () => {
-    expect(beerListReducer({}, { type: null })).toEqual({});
   });
 });

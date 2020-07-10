@@ -31,6 +31,7 @@ describe("rootReducer", () => {
       price: "7",
       abv: "6",
       description: "perfectly dank",
+      pintCount: 124,
       timeTapped: 0,
       id: 1
     }

@@ -14,6 +14,7 @@ function NewForm(props) {
       abv: event.target.abv.value,
       description: event.target.description.value,
       id: v4(),
+      pintCount: event.target.pintCount.value,
       timeOpen: new Moment(),
       formattedShelfLife: new Moment().fromNow() //true to remove 'ago'
     });

@@ -4,10 +4,12 @@ import BeerList from "./BeerList";
 import BeerDetail from "./BeerDetail";
 import EditForm from "./EditForm";
 import { connect } from 'react-redux';
+import Beer from './Beer';
 import PropTypes from 'prop-types';
 import * as a from './../actions';
 
 class BeerControl extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -16,6 +18,7 @@ class BeerControl extends React.Component {
       pintCount: 124,
       selectedBeer: null,
       editing: false,
+      timeTapped: 0
     };
   }
 
@@ -40,6 +43,23 @@ class BeerControl extends React.Component {
     });
   }
 
+  handleClick = () => {
+    if (this.state.selectedBeer !== null) {
+      this.setState({
+        formVisibleOnPage: false,
+        selectedBeer: null,
+        editing: false,
+      });
+    } else {
+      const { dispatch } = this.props;
+      const action =a.toggleForm();
+      dispatch(action);
+      // this.setState((prevState) => ({
+      //   formVisibleOnPage: !prevState.formVisibleOnPage,
+      // }));
+    }
+  }
+
 
   handleChangingSelectedBeer = (id) => {
     const selectedBeer = this.state.masterBeerList.filter(
@@ -62,23 +82,7 @@ class BeerControl extends React.Component {
     // });
   };
 
-  handleClick = () => {
-    if (this.state.selectedBeer !== null) {
-      this.setState({
-        formVisibleOnPage: false,
-        selectedBeer: null,
-        editing: false,
-      });
-    } else {
-      const { dispatch } = this.props;
-      const action =a.toggleForm();
-      dispatch(action);
-      // this.setState((prevState) => ({
-      //   formVisibleOnPage: !prevState.formVisibleOnPage,
-      // }));
-    }
-  }
-
+  
   handleEditingBeerInList = (beerToEdit) => {
     const { dispatch } = this.props;
     const action = a.addBeer(beerToEdit);
