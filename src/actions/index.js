@@ -1,7 +1,7 @@
 import * as c from './../actions/ActionTypes';
 
 export const deleteBeer = id => ({
-  type: c.DELETE_TICKET,
+  type: c.DELETE_BEER,
   id
 });
 
