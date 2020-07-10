@@ -6,24 +6,22 @@ function BeerList(props) {
   return (
     <React.Fragment>
       <h3>Beer List</h3>
-      {props.beerList.length > 0 ? (
-        Object.values(props.beerList).map((beer) => (
+      {/* props.beerList.length > 0 ? ( // possibly comment this out */}
+        {Object.values(props.beerList).map((beer) => 
           <Beer
             whenBeerClicked={props.onBeerSelection}
             name={beer.name}
             brand={beer.brand}
-            price={beer.location}
-            abv={beer.level}
+            price={beer.price}
+            abv={beer.abv}
             description={beer.description}
             pintCount={beer.pintCount}
             formattedShelfLife={beer.formattedShelfLife}
             id={beer.id}
             key={beer.id}
           />
-        ))
-      ) : (
-        <h2>No Beers Available!</h2>
-      )}
+      )} 
+      {/* //  ) : ( <h2>No Beers Available!</h2> */}
     </React.Fragment>
   );
 }

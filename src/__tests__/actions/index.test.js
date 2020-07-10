@@ -30,10 +30,10 @@ describe('tapRoom actions', () => {
   });
 
   it('updateTime should create UPDATE_TIME action', () => {
-    expect(actions.updateTime(1, "A few seconds ago")).toEqual({
+    expect(actions.updateTime(1, "A few seconds")).toEqual({
       type: c.UPDATE_TIME,
       id: 1,
-      formattedShelfLife: "A few seconds ago"
+      formattedShelfLife: "A few seconds"
     });
   });
 });

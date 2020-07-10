@@ -8,8 +8,8 @@ function BeerDetail(props) {
       <h1>Beer Details</h1>
       <p>Name: {beer.name}</p>
       <p>Brewery: {beer.brand}</p>
-      <p>Price: {beer.price}</p>
-      <p>ABV%: {beer.abv}</p>
+      <p>Price: $ {beer.price}</p>
+      <p>ABV: {beer.abv} %</p>
       <p>Flavor Profile: {beer.description}</p>
       <button className="btn" onClick={props.onClickingEdit}>
         Edit Details

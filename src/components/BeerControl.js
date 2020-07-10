@@ -37,7 +37,7 @@ class BeerControl extends React.Component {
   updateTimeSinceTapped = () => {
     const { dispatch } = this.props;
     Object.values(this.props.masterBeerList).forEach(beer => {
-      const newFormattedShelfLife = beer.timeTapped.fromNow(); // true to remove 'ago'
+      const newFormattedShelfLife = beer.timeTapped.fromNow(true);
       const action = a.updateTime(beer.id, newFormattedShelfLife);
       dispatch(action);
     });
@@ -61,9 +61,7 @@ class BeerControl extends React.Component {
   }
 
   handleChangingSelectedBeer = (id) => {
-    const selectedBeer = this.props.masterBeerList.filter( //possibly refactor to masterBeerList[id]
-      (beer) => beer.id === id
-    )[0];
+    const selectedBeer = this.props.masterBeerList[id];
     this.setState({ selectedBeer: selectedBeer });
   };
 
@@ -119,9 +117,7 @@ class BeerControl extends React.Component {
   };
 
   handleRestocking = (id) => {
-    const restockBeer = this.state.masterBeerList.filter(
-      (beer) => beer.id === id
-    )[0];
+    const restockBeer = this.state.masterBeerList[id];
     restockBeer.pintCount = 124;
     restockBeer.timeTapped = 0;
     const editedMasterBeerList = this.state.masterBeerList
