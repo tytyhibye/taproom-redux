@@ -17,7 +17,7 @@ describe('tap room actions', () => {
 
   it('addBeer should create ADD_BEER action', () => {
     expect(actions.addBeer({name: "RPM", brand: "Boneyard", price: "7", abv: "6", description: "perfectly dank", timeTapped: 0,
-    formattedWaitTime: "A few seconds", id: 1})).toEqual({
+    formattedShelfLife: "A few seconds", id: 1})).toEqual({
       type: c.ADD_BEER,
       name: "RPM",
       brand: "Boneyard",
@@ -32,7 +32,7 @@ describe('tap room actions', () => {
     expect(actions.updateTime(1, "A few seconds")).toEqual({
       type: c.UPDATE_TIME,
       id: 1,
-      formattedWaitTime: "A few seconds"
+      formattedShelfLife: "A few seconds"
     });
   });
 });

@@ -33,9 +33,9 @@ class BeerControl extends React.Component {
 
   updateTimeSinceTapped = () => {
     const { dispatch } = this.props;
-    Object.values(this.props.masterTicketList).forEach(ticket => {
-      const newFormattedWaitTime = ticket.timeTapped.fromNow(); // true to remove 'ago'
-      const action = a.updateTime(ticket.id, newFormattedWaitTime);
+    Object.values(this.props.masterBeerList).forEach(beer => {
+      const newFormattedShelfLife = beer.timeTapped.fromNow(); // true to remove 'ago'
+      const action = a.updateTime(beer.id, newFormattedShelfLife);
       dispatch(action);
     });
   }

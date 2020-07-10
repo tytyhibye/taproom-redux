@@ -51,7 +51,7 @@ describe("beerListReducer", () => {
     const { name, brand, price, abv, description, timeTapped, id} = beerDetail;
     action = {
       type: c.UPDATE_TIME,
-      formattedWaitTime: '4 minutes',
+      formattedShelfLife: '4 minutes',
       id: id
     };
     expect(beerListReducer({ [id] : beerDetail }, action)).toEqual({
@@ -63,7 +63,7 @@ describe("beerListReducer", () => {
         description: description,
         timeTapped: timeTapped,
         id: id,
-        formattedWaitTime: '4 minutes'
+        formattedShelfLife: '4 minutes'
       }
     });
   });
@@ -79,7 +79,7 @@ describe("beerListReducer", () => {
       description: description,
       timeTapped: timeTapped,
       id: id,
-      formattedWaitTime: new Moment().fromNow(true) //(true) to remove 'ago'
+      formattedShelfLife: new Moment().fromNow(true) //(true) to remove 'ago'
     };
     expect(beerListReducer({}, action)).toEqual({
       1: {
@@ -90,7 +90,7 @@ describe("beerListReducer", () => {
         description: description,
         timeTapped: timeTapped,
         id: id,
-        formattedWaitTime: 'a few seconds'
+        formattedShelfLife: 'a few seconds'
       }
     });
   });

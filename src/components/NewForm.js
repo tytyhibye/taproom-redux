@@ -15,7 +15,7 @@ function NewForm(props) {
       description: event.target.description.value,
       id: v4(),
       timeOpen: new Moment(),
-      formattedWaitTime: new Moment().fromNow() //true to remove 'ago'
+      formattedShelfLife: new Moment().fromNow() //true to remove 'ago'
     });
   }
 

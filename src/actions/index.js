@@ -22,8 +22,8 @@ export const addBeer = (beer) => {
   }
 }
 
-export const updateTime = (id, formattedWaitTime) => ({
+export const updateTime = (id, formattedShelfLife) => ({
   type: c.UPDATE_TIME,
   id: id,
-  formattedWaitTime: formattedWaitTime
+  formattedShelfLife: formattedShelfLife
 });
