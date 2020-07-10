@@ -79,7 +79,7 @@ describe("beerListReducer", () => {
       description: description,
       timeTapped: timeTapped,
       id: id,
-      formattedWaitTime: new Moment().FromNow(true) //(true) to remove 'ago'
+      formattedWaitTime: new Moment().fromNow(true) //(true) to remove 'ago'
     };
     expect(beerListReducer({}, action)).toEqual({
       1: {
@@ -131,7 +131,8 @@ describe("beerListReducer", () => {
         price: "7",
         abv: "8",
         description: "body of an ale, flavor of a stout",
-        id: 2
+        id: 2,
+        timeTapped: 0
       },
     });
   });
