@@ -1,73 +1,95 @@
-## Tap Room
-### By Tyler Bates
-A site allowing the user to add, update, delete and keep track of kegs of beer. Each keg is defaulted to carrying 124 pints which will decrement as they are sold via the "sell a pint" button.
+# Tap Room - Redux Refactor
 
-### Diagram
-<img src='public\Diagram.drawio.png'>
+#### By Tyler Bates
+<hr/>
 
-## Available Scripts
+## Description
 
-In the project directory, you can run:
+A React Web application for a virtual TapRoom. <br>
+The user to create, update, delete and view the details of added kegs of beer. This repository is a refactor of the [Taproom](https://github.com/tytyhibye/taproom) application and implements Redux for all local and shared state.
+<hr />
 
-### `npm start`
+## Component Diagrams
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Entry & Edit Form:
+<img src='public\FormDiagram.drawio.png'>
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Beer List:
+<img src='public\ListDiagram.drawio.png'>
 
-### `npm test`
+### Beer Details:
+<img src='public\DetailsDiagram.drawio.png'>
+<hr/>
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Logistics
 
-### `npm run build`
+|||
+|-----|-----|
+| :ballot_box_with_check: |User can view list of available kegs displaying name of beer, brewery, and time since tapped|
+| :ballot_box_with_check: |User can submit a form to add a new keg to the list|
+| :ballot_box_with_check: |User can view submitted details of each Beer in List by clicking on name|
+| :ballot_box_with_check: |Details card will include pints left in keg and option to sell a pint (decrement by 1) or tap a new keg (reset to 124). Pints left should not go below 0|
+| :ballot_box_with_check: |User can update beer details by submitting edit form|
+| :ballot_box_with_check: |User can delete beer from list|
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<hr />
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Setup/Installation Requirements
 
-### `npm run eject`
+1. Clone this projects repository into your local directory following [these](https://www.linode.com/docs/development/version-control/how-to-install-git-and-clone-a-github-repository/) instructions.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+2. Open the now local project folder with [VSC](https://code.visualstudio.com/Download) or an equivalent
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Navigate to the project directory from your terminal by entering the following:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+$ cd ~/taproom-refactor
+```
+4. Within the projects directory install all required dependencies with
+```
+$ npm install
+```
+5. Run the application to view in your browser with
+```
+$ npm run start
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+>If the browser does not automatically launch, view the project [here](https://localhost:3000)
 
-## Learn More
+<hr/>
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Known Bugs
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Threading incrementation
+The threading aspect is still in progress and if the page is open for more than an hour a TypeError will occur.
 
-### Code Splitting
+<hr/>
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## Technologies Used
 
-### Analyzing the Bundle Size
+- JavaScript
+- React
+- Redux
+- Material UI
+- HTML
+- CSS
+- Git
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Legal
 
-### Making a Progressive Web App
+#### Apache License V2.0
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+Copyright 2020 Tyler Bates @ Epicodus
 
-### Advanced Configuration
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+http://www.apache.org/licenses/LICENSE-2.0
 
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

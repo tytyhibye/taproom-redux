@@ -86,7 +86,7 @@ class BeerControl extends React.Component {
 
   handleBuyingPint = (id) => {
     const { dispatch } = this.props;
-    const beerToSell = Object.values(this.props.masterBeerList).filter(beer => beer.id === id)
+    const beerToSell = Object.values(this.props.masterBeerList).filter(beer => beer.id === id);
     const action = a.sellPint(beerToSell);
     console.log(beerToSell);
     console.log(beerToSell.pintCount);
@@ -94,26 +94,10 @@ class BeerControl extends React.Component {
       dispatch(action);
     }
   };
-  // handleDeletingBeer = (id) => {
-  //   const { dispatch } = this.props;
-  //   const action = a.deleteBeer(id);
-  //   dispatch(action);
-  //   this.setState({
-  //     selectedBeer: null,
-  //   });
-  // };
 
-    // const beerToSell = this.props.masterBeerList[id];
-    // if (beerToSell.pintCount > 0) {
-    //   beerToSell.pintCount -= 1;
-    // }
-    //   const editedMasterBeerList = this.state.masterBeerList
-    //   this.setState({
-    //     masterBeerList: editedMasterBeerList   
-    // });
 
   handleRestocking = (id) => {
-    const restockBeer = this.state.masterBeerList[id];
+    const restockBeer = Object.values(this.props.masterBeerList).filter(beer => beer.id === id);
     restockBeer.pintCount = 124;
     restockBeer.timeTapped = 0;
     const editedMasterBeerList = this.state.masterBeerList
