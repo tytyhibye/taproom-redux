@@ -34,7 +34,7 @@ export const sellPint = (beer) => {
     price: price,
     abv: abv,
     description: description,
-    pintCount: pintCount,
+    pintCount: pintCount -1,
     timeTapped: timeTapped,
     formattedShelfLife: formattedShelfLife,
     id: id
