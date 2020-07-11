@@ -4,7 +4,6 @@ import BeerList from "./BeerList";
 import BeerDetail from "./BeerDetail";
 import EditForm from "./EditForm";
 import { connect } from 'react-redux';
-// import Beer from './Beer';
 import PropTypes from 'prop-types';
 import * as a from './../actions';
 
@@ -13,8 +12,6 @@ class BeerControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // formVisibleOnPage: false,
-      // masterBeerList: [],
       pintCount: 124,
       selectedBeer: null,
       editing: false,
@@ -25,21 +22,22 @@ class BeerControl extends React.Component {
   componentDidMount() {
     this.tappedTimeUpdate = setInterval(() => 
     this.updateTimeSinceTapped(),
-    60000
+    600000
     );
   }
 
-  componentWillUnmount() {
-    console.log('component unmounted!');
+  componentWillUnmount(id) {
+    const checkCount = this.props.masterBeerList[id];
+    if(checkCount.pintCount === 0) {
     clearInterval(this.tappedTimeUpdate);
+    }
   }
 
   updateTimeSinceTapped = () => {
     const { dispatch } = this.props;
     Object.values(this.props.masterBeerList).forEach(beer => {
       const newFormattedShelfLife = beer.timeTapped.fromNow();
-      const action = a.updateTime(beer.id, newFormattedShelfLife);
-      dispatch(action);
+      dispatch(a.updateTime(beer.id, newFormattedShelfLife));
     });
   }
 
@@ -54,9 +52,6 @@ class BeerControl extends React.Component {
       const { dispatch } = this.props;
       const action = a.toggleForm();
       dispatch(action);
-      // this.setState((prevState) => ({
-      //   formVisibleOnPage: !prevState.formVisibleOnPage,
-      // }));
     }
   }
 
@@ -71,12 +66,6 @@ class BeerControl extends React.Component {
     dispatch(action);
     const action2 = a.toggleForm();
     dispatch(action2);
-    // const newMasterBeerList = this.state.masterBeerList.concat(newBeer);
-    // this.setState({
-    //   masterBeerList: newMasterBeerList,
-    //   formVisibleOnPage: false,
-      // editing: false,
-    // });
   };
 
   
@@ -84,45 +73,51 @@ class BeerControl extends React.Component {
     const { dispatch } = this.props;
     const action = a.addBeer(beerToEdit);
     dispatch(action);
-    // const editedMasterBeerList = this.state.masterBeerList
-    //   .filter((beer) => beer.id !== this.state.selectedBeer.id)
-    //   .concat(beerToEdit);
+
     this.setState({
-      // masterBeerList: editedMasterBeerList, // might need to comment out
       editing: false,
       selectedBeer: null,
     });
   };
 
   handleEditClick = () => {
-    // console.log("handleEditClick reached!");
     this.setState({ editing: true });
   };
 
-  handleBuyingPint = (beerToSell) => {
-    if (beerToSell.pintCount === 0) {
-      return beerToSell.pintCount;
-    } else {
-      const { dispatch } = this.props;
-      const action = a.sellPint(beerToSell);
+  handleBuyingPint = (id) => {
+    const { dispatch } = this.props;
+    const beerToSell = Object.values(this.props.masterBeerList).filter(beer => beer.id === id)
+    const action = a.sellPint(beerToSell);
+    console.log(beerToSell);
+    console.log(beerToSell.pintCount);
+    if (beerToSell.pintCount > 0) {
       dispatch(action);
-      // beerToSell.pintCount -= 1;
     }
-    // const editedMasterBeerList = this.state.masterBeerList
-      // .filter((beer) => beer.id !== this.state.selectedBeer.id)
-      // .concat(beerToSell);
-    this.setState({
-      selectedBeer: null   
-    });
   };
+  // handleDeletingBeer = (id) => {
+  //   const { dispatch } = this.props;
+  //   const action = a.deleteBeer(id);
+  //   dispatch(action);
+  //   this.setState({
+  //     selectedBeer: null,
+  //   });
+  // };
+
+    // const beerToSell = this.props.masterBeerList[id];
+    // if (beerToSell.pintCount > 0) {
+    //   beerToSell.pintCount -= 1;
+    // }
+    //   const editedMasterBeerList = this.state.masterBeerList
+    //   this.setState({
+    //     masterBeerList: editedMasterBeerList   
+    // });
 
   handleRestocking = (id) => {
     const restockBeer = this.state.masterBeerList[id];
     restockBeer.pintCount = 124;
     restockBeer.timeTapped = 0;
     const editedMasterBeerList = this.state.masterBeerList
-      // .filter((beer) => beer.id !== this.state.selectedBeer.id)
-      // .concat(restockBeer);
+
     this.setState({
       masterBeerList: editedMasterBeerList,
     });
@@ -132,11 +127,7 @@ class BeerControl extends React.Component {
     const { dispatch } = this.props;
     const action = a.deleteBeer(id);
     dispatch(action);
-    // const newMasterBeerList = this.state.masterBeerList.filter(
-    //   (beer) => beer.id !== id
-    // );
     this.setState({
-      // masterBeerList: newMasterBeerList,
       selectedBeer: null,
     });
   };

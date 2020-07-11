@@ -3,6 +3,19 @@ import * as actions from "./../../actions";
 
 
 describe('tapRoom actions', () => {
+
+  const testBeer = {
+    name: "RPM",
+    brand: "Boneyard",
+    price: 7,
+    abv: 6,
+    description: "Dank",
+    pintCount: 124,
+    timeTapped: 0,
+    formattedShelfLife: "A few seconds ago",
+    id: 1
+  }
+
   it('toggleForm should create TOGGLE_FORM action', () => {
     expect(actions.toggleForm()).toEqual({
       type: c.TOGGLE_FORM
@@ -10,13 +23,28 @@ describe('tapRoom actions', () => {
   });
 
   it('addBeer should create ADD_BEER action', () => {
-    expect(actions.addBeer({name: "RPM", brand: "Boneyard", price: "7", abv: "6", description: "perfectly dank", pintCount: 124, timeTapped: 0, formattedShelfLife: "A few seconds ago", id: 1})).toEqual({
+    expect(actions.addBeer({testBeer})).toEqual({
       type: c.ADD_BEER,
       name: "RPM",
       brand: "Boneyard",
-      price: "7",
-      abv: "6",
-      description: "perfectly dank",
+      price: 7,
+      abv: 6,
+      description: "Dank",
+      pintCount: 124,
+      timeTapped: 0,
+      formattedShelfLife: "A few seconds ago",
+      id: 1
+    });
+  });
+
+  test('sellPint should create SELL_PINT action', () => {
+    expect(actions.sellPint(testKeg)).toEqual({
+      type: c.SELL_PINT,
+      name: "RPM",
+      brand: "Boneyard",
+      price: 7,
+      abv: 6,
+      description: "Dank",
       pintCount: 124,
       timeTapped: 0,
       formattedShelfLife: "A few seconds ago",
