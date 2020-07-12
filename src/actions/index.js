@@ -36,3 +36,7 @@ export const updateTime = (id, formattedShelfLife) => ({
 export const toggleForm = () => ({
   type: c.TOGGLE_FORM
 });
+
+export const toggleEditForm = () => ({
+  type: c.TOGGLE_EDIT_FORM
+});
