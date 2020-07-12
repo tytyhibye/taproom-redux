@@ -40,3 +40,13 @@ export const toggleForm = () => ({
 export const toggleEditForm = () => ({
   type: c.TOGGLE_EDIT_FORM
 });
+
+export const selectBeer = (id) => ({
+  type: c.SELECT_BEER,
+  id: id
+});
+
+export const deselectBeer = (id) => ({
+  type: c.DESELECT_BEER,
+  id: id
+});
