@@ -152,4 +152,24 @@ describe("beerListReducer", () => {
       },
     });
   });
+
+  test('Should successfully sell a pint of beer', () => {
+    action = {
+      type: c.SELL_PINT,
+      id: 1
+    };
+
+    const soldState = {
+      name: "RPM",
+      brand: "Boneyard",
+      price: "7",
+      abv: "6",
+      description: "a balanced blend of citrus and pine",
+      pintCount: 123,
+      timeTapped: 0,
+      id: 1
+    }
+
+    expect(soldState).toEqual(beerListReducer(updatedBeerDetail, action));
+  });
 });

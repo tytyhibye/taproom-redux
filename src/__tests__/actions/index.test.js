@@ -4,7 +4,7 @@ import * as actions from "./../../actions";
 
 describe('tapRoom actions', () => {
 
-  const testBeer = {
+  const currentState = {
     name: "RPM",
     brand: "Boneyard",
     price: 7,
@@ -22,8 +22,14 @@ describe('tapRoom actions', () => {
     });
   });
 
+  it('toggleEditForm should create TOGGLE_EDIT_FORM action', () => {
+    expect(actions.toggleEditForm()).toEqual({
+      type: c.TOGGLE_EDIT_FORM
+    });
+  });
+
   it('addBeer should create ADD_BEER action', () => {
-    expect(actions.addBeer({testBeer})).toEqual({
+    expect(actions.addBeer({name: "RPM",brand: "Boneyard",price: 7,abv: 6,description: "Dank",pintCount: 124, timeTapped: 0, formattedShelfLife: "A few seconds ago", id: 1})).toEqual({
       type: c.ADD_BEER,
       name: "RPM",
       brand: "Boneyard",
@@ -38,7 +44,7 @@ describe('tapRoom actions', () => {
   });
 
   test('sellPint should create SELL_PINT action', () => {
-    expect(actions.sellPint(testKeg)).toEqual({
+    expect(actions.sellPint(currentState)).toEqual({
       type: c.SELL_PINT,
       name: "RPM",
       brand: "Boneyard",

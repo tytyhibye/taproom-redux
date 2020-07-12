@@ -84,12 +84,12 @@ class BeerControl extends React.Component {
     this.setState({ editing: true });
   };
 
-  handleBuyingPint = (id) => {
+  handleSellingPint = (id) => {
     const { dispatch } = this.props;
     const beerToSell = Object.values(this.props.masterBeerList).filter(beer => beer.id === id);
     const action = a.sellPint(beerToSell);
-    console.log(beerToSell);
-    console.log(beerToSell.pintCount);
+    console.log(beerToSell); // returns beer object
+    console.log(beerToSell.pintCount); // undefined for no apparent reason
     if (beerToSell.pintCount > 0) {
       dispatch(action);
     }
@@ -129,7 +129,7 @@ class BeerControl extends React.Component {
           beer={this.state.selectedBeer}
           onClickingDelete={this.handleDeletingBeer}
           onClickingEdit={this.handleEditClick}
-          onClickingSell={this.handleBuyingPint}
+          onClickingSell={this.handleSellingPint}
           onClickingRestock={this.handleRestocking}
         />
       buttonText = "Return to Beer List";
