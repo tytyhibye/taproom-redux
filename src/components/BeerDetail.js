@@ -18,7 +18,7 @@ function BeerDetail(props) {
         Delete Beer
       </button>
       <hr />
-      <p>Pints Left in Keg: {beer.pintCount}</p>
+      <p>Pints Left in Keg: {beer.pintCount}  <em>{props.countWarning}</em></p>
       <button className="btn" onClick={() => onClickingSell(beer.id)}>
         Sell a pint
       </button>

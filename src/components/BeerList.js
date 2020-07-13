@@ -6,7 +6,6 @@ function BeerList(props) {
   return (
     <React.Fragment>
       <h3>Beer List</h3>
-      {/* props.beerList.length > 0 ? ( // possibly comment this out */}
         {Object.values(props.beerList).map((beer) => 
           <Beer
             whenBeerClicked={props.onBeerSelection}
@@ -21,7 +20,6 @@ function BeerList(props) {
             key={beer.id}
           />
       )} 
-      {/* //  ) : ( <h2>No Beers Available!</h2> */}
     </React.Fragment>
   );
 }

@@ -1,8 +1,9 @@
 import * as c from './../actions/ActionTypes';
+import Moment from 'moment';
 
 export default (state = {}, action) => {
   
-  const { name, brand, price, abv, description, id, pintCount, formattedShelfLife, timeTapped } = action;
+  const { name, brand, price, abv, description, pintCount, timeTapped, formattedShelfLife, id } = action;
   
   switch (action.type) {
     case c.ADD_BEER:
@@ -41,9 +42,10 @@ export default (state = {}, action) => {
       case c.RESTOCK_BEER:
         const restockState = { ...state };
         restockState[id].pintCount = 124;
-        restockState[id].timeTapped = 0;
+        restockState[id].timeTapped = new Moment(),
+        restockState[id].formattedShelfLife = new Moment().fromNow();
         return restockState;
-        
+
       default:
         return state;
   }

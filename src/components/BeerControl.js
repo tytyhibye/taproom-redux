@@ -9,12 +9,6 @@ import * as a from './../actions';
 
 class BeerControl extends React.Component {
 
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //   };
-  // }
-
   componentDidMount() {
     this.tappedTimeUpdate = setInterval(() => 
     this.updateTimeSinceTapped(),
@@ -23,7 +17,7 @@ class BeerControl extends React.Component {
   }
 
   componentWillUnmount(id) {
-    const checkCount = this.props.masterBeerList[id];
+    const checkCount = Object.values(this.props.masterBeerList).filter(beer => beer.id === id)[0];
     if(checkCount.pintCount === 0) {
     clearInterval(this.tappedTimeUpdate);
     }
@@ -31,7 +25,7 @@ class BeerControl extends React.Component {
 
   updateTimeSinceTapped = () => {
     const { dispatch } = this.props;
-    Object.values(this.props.masterBeerList).forEach(beer => {
+    Object.values(this.props.masterBeerList).forEach(beer => { 
       const newFormattedShelfLife = beer.timeTapped.fromNow();
       dispatch(a.updateTime(beer.id, newFormattedShelfLife));
     });
@@ -93,7 +87,7 @@ class BeerControl extends React.Component {
 
   handleSellingPint = (id) => {
 
-  const beerToSell = Object.values(this.props.masterBeerList).filter(keg => keg.id === id)[0];
+  const beerToSell = Object.values(this.props.masterBeerList).filter(beer => beer.id === id)[0];
   const { dispatch } = this.props;
   const action = a.sellPint(id);
 
@@ -104,7 +98,7 @@ class BeerControl extends React.Component {
     beerToSell.countWarning = "Getting Low.."
     dispatch(action);
   } else if (beerToSell.pintCount <= 62) {
-    beerToSell.countWarning = "Over Halfway Gone."
+    beerToSell.countWarning = "Over Halfway Gone.."
     dispatch(action)
   } else{
     dispatch(action);

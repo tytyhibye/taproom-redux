@@ -15,7 +15,7 @@ function NewForm(props) {
       description: event.target.description.value,
       id: v4(),
       pintCount: 124,
-      timeOpen: new Moment(),
+      timeTapped: new Moment(),
       formattedShelfLife: new Moment().fromNow()
     });
   }

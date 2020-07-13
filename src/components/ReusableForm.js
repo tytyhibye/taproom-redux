@@ -18,18 +18,24 @@ function ReusableForm(props) {
         <input
           type='number'
           name='price'
-          placeholder='Price per pint' />
+          placeholder='Price per pint'
+          min='0' />
           <br/>
         <input
           type='number'
           name='abv'
-          placeholder='ABV %' />
+          placeholder='ABV %'
+          min='0' />
           <br/>
         <textarea
           type='text'
           name='description'
           placeholder='Flavor Profile' />
           <br/>
+          <input
+          type='hidden'
+          name='pintCount'
+          value='124' />
         <button className="btn" type='submit'>{props.buttonText}</button>
 
       </form>
