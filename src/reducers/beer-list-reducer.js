@@ -26,17 +26,24 @@ export default (state = {}, action) => {
         return newState;
 
       case c.UPDATE_TIME:
-        const newBeer = Object.assign({}, state[id], { formattedShelfLife });
-        const updatedState = Object.assign({}, state, {
-          [id]: newBeer
+        const newerState = { ...state };
+        const timeState = Object.assign({}, newerState[id], { formattedShelfLife });
+        const updatedNewState = Object.assign({}, newerState, {
+          [id]: timeState
         });
-        return updatedState;
+        return updatedNewState;
 
       case c.SELL_PINT:
         const pintState = { ...state };
         pintState[id].pintCount = pintState[id].pintCount -1;
         return pintState;
 
+      case c.RESTOCK_BEER:
+        const restockState = { ...state };
+        restockState[id].pintCount = 124;
+        restockState[id].timeTapped = 0;
+        return restockState;
+        
       default:
         return state;
   }

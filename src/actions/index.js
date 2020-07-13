@@ -27,6 +27,11 @@ export const sellPint = id => ({
     id: id
   });
 
+  export const restockBeer = id => ({
+    type: c.RESTOCK_BEER,
+    id: id
+  });
+
 export const updateTime = (id, formattedShelfLife) => ({
   type: c.UPDATE_TIME,
   id: id,

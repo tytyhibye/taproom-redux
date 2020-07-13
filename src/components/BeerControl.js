@@ -9,15 +9,11 @@ import * as a from './../actions';
 
 class BeerControl extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      pintCount: 124,
-      selectedBeer: null,
-      editing: false,
-      timeTapped: 0
-    };
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //   };
+  // }
 
   componentDidMount() {
     this.tappedTimeUpdate = setInterval(() => 
@@ -42,22 +38,32 @@ class BeerControl extends React.Component {
   }
 
   handleClick = () => {
-    if (this.state.selectedBeer !== null) {
-      this.setState({
-        formVisibleOnPage: false,
-        selectedBeer: null,
-        editing: false,
-      });
+    if (this.props.selectedBeer !== null) {
+      const { dispatch } = this.props;
+      const action = a.toggleEditForm();
+
+      if (this.props.editing === true) {
+        dispatch(action);
+      }
+      const action2 = a.deselectBeer();
+      dispatch(action2);
+
     } else {
       const { dispatch } = this.props;
+      const action2 = a.toggleEditForm();
+
+      if (this.props.editing === true) {
+        dispatch(action2);
+      }
       const action = a.toggleForm();
       dispatch(action);
     }
-  }
+  };
 
   handleChangingSelectedBeer = (id) => {
-    const selectedBeer = this.props.masterBeerList[id];
-    this.setState({ selectedBeer: selectedBeer });
+   const { dispatch } = this.props;
+   const action = a.selectBeer(id);
+   dispatch(action);
   };
 
   handleAddingNewBeerToList = (newBeer) => {
@@ -66,67 +72,74 @@ class BeerControl extends React.Component {
     dispatch(action);
     const action2 = a.toggleForm();
     dispatch(action2);
-  };
-
+  }
   
   handleEditingBeerInList = (beerToEdit) => {
     const { dispatch } = this.props;
+
     const action = a.addBeer(beerToEdit);
     dispatch(action);
-
-    this.setState({
-      editing: false,
-      selectedBeer: null,
-    });
+    const action2 = a.toggleEditForm();
+    dispatch(action2);
+    const action3 = a.deselectBeer();
+    dispatch(action3);
   };
 
   handleEditClick = () => {
-    this.setState({ editing: true });
+    const { dispatch } = this.props;
+    const action = a.toggleEditForm();
+    dispatch(action);
   };
 
   handleSellingPint = (id) => {
-    const { dispatch } = this.props;
-    const beerToSell = Object.values(this.props.masterBeerList).filter(beer => beer.id === id);
-    const action = a.sellPint(beerToSell);
-    console.log(beerToSell); // returns beer object
-    console.log(beerToSell.pintCount); // undefined for no apparent reason
-    if (beerToSell.pintCount > 0) {
-      dispatch(action);
-    }
-  };
 
+  const beerToSell = Object.values(this.props.masterBeerList).filter(keg => keg.id === id)[0];
+  const { dispatch } = this.props;
+  const action = a.sellPint(id);
+
+  if (beerToSell.pintCount === 0) {
+    beerToSell.countWarning = "Sold Out."
+    dispatch(action);
+  } else if (beerToSell.pintCount <= 20) {
+    beerToSell.countWarning = "Getting Low.."
+    dispatch(action);
+  } else if (beerToSell.pintCount <= 62) {
+    beerToSell.countWarning = "Over Halfway Gone."
+    dispatch(action)
+  } else{
+    dispatch(action);
+  }
+};
 
   handleRestocking = (id) => {
-    const restockBeer = Object.values(this.props.masterBeerList).filter(beer => beer.id === id);
-    restockBeer.pintCount = 124;
-    restockBeer.timeTapped = 0;
-    const editedMasterBeerList = this.state.masterBeerList
-
-    this.setState({
-      masterBeerList: editedMasterBeerList,
-    });
+    const { dispatch } = this.props;
+    const action = a.restockBeer(id);
+    dispatch(action);
   };
 
   handleDeletingBeer = (id) => {
     const { dispatch } = this.props;
     const action = a.deleteBeer(id);
     dispatch(action);
-    this.setState({
-      selectedBeer: null,
-    });
-  };
+    const action2 = a.deselectBeer();
+    dispatch(action2);
+    };
 
   render() {
     let currentlyVisibleState = null;
     let buttonText = null;
+    let thisSelectedBeer;
 
-    if (this.state.editing) {
-      currentlyVisibleState = <EditForm beer={this.state.selectedBeer} onEdit={this.handleEditingBeerInList} />
+    thisSelectedBeer = Object.values(this.props.masterBeerList)
+    .filter(beer => beer.id === this.props.selectedBeer);
+
+    if (this.props.editing) {
+      currentlyVisibleState = <EditForm beer={thisSelectedBeer[0]} onEdit={this.handleEditingBeerInList} />
       buttonText = "Return to Beer List";
-    } else if (this.state.selectedBeer != null) {
+    } else if (this.props.selectedBeer != null) {
       currentlyVisibleState = 
         <BeerDetail
-          beer={this.state.selectedBeer}
+          beer={this.props.selectedBeer}
           onClickingDelete={this.handleDeletingBeer}
           onClickingEdit={this.handleEditClick}
           onClickingSell={this.handleSellingPint}
@@ -134,19 +147,19 @@ class BeerControl extends React.Component {
         />
       buttonText = "Return to Beer List";
       
-    } else if (this.props.formVisibleOnPage) { 
-      currentlyVisibleState = 
-        <NewForm
-          onNewBeerCreation={this.handleAddingNewBeerToList} />
-      buttonText = "Return to List";
-    } else {
+    } else if (this.props.formVisibleOnPage === false) { 
       currentlyVisibleState = 
         <BeerList
           beerList={this.props.masterBeerList} // might need to be props
           onBeerSelection={this.handleChangingSelectedBeer}
           />
       buttonText = "Add Beer!";
-    }
+    } else if (this.props.formVisibleOnPage === true) {
+        currentlyVisibleState = 
+        <NewForm
+          onNewBeerCreation={this.handleAddingNewBeerToList} />
+      buttonText = "Return to List";
+    } 
 
     return (
       <React.Fragment>
@@ -160,13 +173,18 @@ class BeerControl extends React.Component {
 }
 
 BeerControl.propTypes = {
-  masterBeerList: PropTypes.object
+  formVisibleOnPage: PropTypes.bool,
+  masterBeerList: PropTypes.object,
+  editing: PropTypes.bool,
+  selectedBeer: PropTypes.string
 }
 
 const mapStateToProps = state => {
   return {
     formVisibleOnPage: state.formVisibleOnPage,
-    masterBeerList: state.masterBeerList
+    masterBeerList: state.masterBeerList,
+    editing: state.editing,
+    selectedBeer: state.selectedBeer
   }
 }
 
