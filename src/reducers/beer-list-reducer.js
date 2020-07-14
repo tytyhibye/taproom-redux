@@ -42,17 +42,12 @@ export default (state = {}, action) => {
       case c.RESTOCK_BEER:
         const restockState = { ...state };
         return Object.assign({}, restockState, {
-          [id]: {
-            name: name,
-            brand: brand,
-            price: price,
-            abv: abv,
-            description: description,
-            id: id,
+          [id]: 
+            Object.assign({}, restockState[id], {
             pintCount: 124,
             timeTapped: new Moment(),
             formattedShelfLife: new Moment().fromNow()
-          },
+          })
         });
       
       default:

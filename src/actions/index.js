@@ -12,7 +12,7 @@ export const addBeer = (beer) => {
     description: description,
     pintCount: pintCount,
     timeTapped: timeTapped,
-    formattedShelfLife: "Less than a hour ago",
+    formattedShelfLife: "Less than an hour ago",
     id: id
   };
 }

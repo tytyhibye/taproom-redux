@@ -7,7 +7,7 @@ function EditForm(props) {
 
   function handleEditFormSubmission(event) {
     event.preventDefault();
-    props.onEdit({ name: event.target.name.value, brand: event.target.brand.value, price: event.target.price.value, abv: event.target.abv.value, description: event.target.description.value, timeTapped: beer.timeTapped, formattedShelfLife: beer.formattedShelfLife, id: beer.id });
+    props.onEdit({ name: event.target.name.value, brand: event.target.brand.value, price: event.target.price.value, abv: event.target.abv.value, description: event.target.description.value, pintCount: beer.pintCount, timeTapped: beer.timeTapped, formattedShelfLife: beer.formattedShelfLife, id: beer.id });
   }
 
   return (

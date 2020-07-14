@@ -12,7 +12,7 @@ class BeerControl extends React.Component {
   componentDidMount() {
     this.tappedTimeUpdate = setInterval(() => 
     this.updateTimeSinceTapped(),
-    600000
+    60000
     );
   }
 
@@ -57,6 +57,7 @@ class BeerControl extends React.Component {
   handleChangingSelectedBeer = (id) => {
    const { dispatch } = this.props;
    const action = a.selectBeer(id);
+   console.log(a.selectBeer(id));
    dispatch(action);
   };
 
@@ -127,13 +128,13 @@ class BeerControl extends React.Component {
     thisSelectedBeer = Object.values(this.props.masterBeerList)
     .filter(beer => beer.id === this.props.selectedBeer);
 
-    if (this.props.editing) {
+    if (this.props.editing == true) {
       currentlyVisibleState = <EditForm beer={thisSelectedBeer[0]} onEdit={this.handleEditingBeerInList} />
       buttonText = "Return to Beer List";
-    } else if (this.props.selectedBeer != null) {
+    } else if (this.props.selectedBeer !== null) {
       currentlyVisibleState = 
         <BeerDetail
-          beer={this.props.selectedBeer}
+          beer={this.props.masterBeerList[this.props.selectedBeer]}
           onClickingDelete={this.handleDeletingBeer}
           onClickingEdit={this.handleEditClick}
           onClickingSell={this.handleSellingPint}

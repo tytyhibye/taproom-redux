@@ -23,6 +23,7 @@ function NewForm(props) {
   return (
     <React.Fragment>
       <ReusableForm
+        beer={{}}
         formSubmissionHandler={handleNewFormSubmission}
         buttonText="Add Beer" />
     </React.Fragment>
